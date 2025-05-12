@@ -13,7 +13,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        // Fetch all products, ordered by latest, and paginate them (e.g., 10 per page)
+        $products = Product::latest()->paginate(10);
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -22,6 +24,7 @@ class ProductController extends Controller
     public function create()
     {
         //
+        return
     }
 
     /**
@@ -30,6 +33,17 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        validate($request,[
+            'name'=>'required|string|max:255',
+            'description'=>'nullable|string',
+        ])
+        Product::create([
+            $request->only([
+                'name',
+                'description'
+            ]);
+        ]);
+        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -38,6 +52,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //
+        return view('admin.products.show', compact('product'));
     }
 
     /**
